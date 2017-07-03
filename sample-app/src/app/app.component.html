@@ -1,0 +1,14 @@
+<h1>
+  Test APP
+</h1>
+<input type="text" [(ngModel)]="money" placeholder="Enter the money amount" />
+<input [mdDatepicker]="myDatepicker" [(ngModel)]="date" placeholder="Choose a date">
+<button [mdDatepickerToggle]="myDatepicker"></button>
+<md-datepicker #myDatepicker></md-datepicker>
+<button md-raised-button (click)="addItem()">Add</button>
+<md-card *ngFor="let item of data" style="margin:5px;">
+  {{ item.date | date }} : {{ item.value | currency }}
+</md-card>
+
+{{ date | date }} <br/>
+{{ money | currency }}
