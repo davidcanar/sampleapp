@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { WebserviceService } from './webservice.service';
 import { item } from './item.class';
 
@@ -8,24 +9,27 @@ import { item } from './item.class';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  money:number = 0;
-  date:Date = new Date();
   data:any[] = []
   constructor(private srv:WebserviceService){ }
+  myForm:FormGroup;
+
   async addItem(){
-    console.log("clicked!!");
-    var result = await this.srv.saveData(new item(this.money, this.date));
-    console.log(result.json());
+    var result = await this.srv.saveData(new item(this.myForm.value.money, this.myForm.value.date));
+    this.getData();
+    this.myForm.reset();
+  }
+  async ngOnInit() {
+    this.initializeForm();
     this.getData();
   }
   async getData(){
-    console.log('here'); 
     var data = await this.srv.getData()
     this.data = data.json();
   }
-  async ngOnInit() {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.getData();
+  async initializeForm(){
+    this.myForm = new FormGroup({
+      'money': new FormControl(null, Validators.required),
+      'date' : new FormControl(null, Validators.required)
+    });
   }
 }

@@ -1,14 +1,13 @@
 <h1>
   Test APP
 </h1>
-<input type="text" [(ngModel)]="money" placeholder="Enter the money amount" />
-<input [mdDatepicker]="myDatepicker" [(ngModel)]="date" placeholder="Choose a date">
-<button [mdDatepickerToggle]="myDatepicker"></button>
-<md-datepicker #myDatepicker></md-datepicker>
-<button md-raised-button (click)="addItem()">Add</button>
+<form [formGroup]="myForm" (ngSubmit)="addItem()">
+  <input formControlName="money" type="text" placeholder="Enter the money amount" />
+  <input formControlName="date" [mdDatepicker]="myDatepicker" placeholder="Choose a date" />
+  <button [mdDatepickerToggle]="myDatepicker"></button>
+  <md-datepicker #myDatepicker></md-datepicker>
+  <input type="submit" md-raised-button value="Add" [disabled]="!myForm.valid" />
+</form>
 <md-card *ngFor="let item of data" style="margin:5px;">
   {{ item.date | date }} : {{ item.value | currency }}
 </md-card>
-
-{{ date | date }} <br/>
-{{ money | currency }}
